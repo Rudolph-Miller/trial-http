@@ -1,6 +1,6 @@
 #ifndef __TRIAL_HTTP_H
 #define __TRIAL_HTTP_H
 
-char *parse_http();
+int parse_http(char *buffer, char **method, int *method_len);
 
 #endif
