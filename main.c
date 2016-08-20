@@ -26,16 +26,22 @@ char *read_request() {
   return ret;
 }
 
+const char *substr(char *buf, int len) {
+  char *ret = malloc(len);
+  for (int i = 0; i < len; i++) {
+    ret[i] = buf[i];
+  }
+  return ret;
+}
+
 int main() {
   char *request = read_request();
-  char *method;
-  int method_len;
-  int status = parse_http(request, &method, &method_len);
-  printf("PARSE STATUS: %d\n", status);
-  printf("METHOD: ");
-  for (int i = 0; i < method_len; i++) {
-    printf("%c", method[i]);
-  }
-  printf("\n");
+  char *method, *path;
+  int method_len, path_len;
+  int status = parse_http(request, &method, &method_len, &path, &path_len);
+  printf("RESULT:\n");
+  printf("\tPARSE STATUS: %d\n", status);
+  printf("\tMETHOD: %s\n", substr(method, method_len));
+  printf("\tPATH: %s\n", substr(path, path_len));
   return 0;
 }

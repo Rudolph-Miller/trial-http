@@ -22,9 +22,28 @@ void parse_method(char **buf, char **method, int *method_len) {
   *buf += len + 1;
 }
 
-int parse_http(char *buf, char **method, int *method_len) {
+void parse_path(char **buf, char **path, int *path_len) {
+  int len = find_space(*buf);
+  if (len == -1) {
+    printf("Error in parse_path");
+    exit(1);
+  }
+  *path = *buf;
+  ;
+  *path_len = len;
+  *buf += len + 1;
+}
+
+int parse_http(char *buf, char **method, int *method_len, char **path,
+               int *path_len) {
   *method = NULL;
   *method_len = 0;
+  *path = NULL;
+  *path_len = 0;
   parse_method(&buf, method, method_len);
+  parse_path(&buf, path, path_len);
+  if (*buf != EOF) {
+    printf("REST OF REQUEST:\n-----\n%s-----\n", buf);
+  }
   return 0;
 }
